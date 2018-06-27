@@ -19,14 +19,15 @@
 <script>
 import Hello from './components/HelloWorld'
 import custom from './components/custom-input'
+import myCanvas from './components/my-canvas'
 export default {
   name: 'App',
-  components: {Hello, custom},
+  components: {Hello, custom, myCanvas},
   data: function () {
     return {
       msg: '',
-      currentTab: 'Hello',
-      tabs: ['Hello', 'custom']
+      currentTab: 'myCanvas',
+      tabs: ['Hello', 'custom', 'myCanvas']
     }
   },
   computed: {
