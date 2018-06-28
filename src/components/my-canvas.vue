@@ -1,6 +1,7 @@
 <template>
   <div>
-    <canvas id="container" width="400px" height="300px"></canvas>
+    <canvas @mousemove="showPosition" id="container" :width="width" :height="height"></canvas>
+    <div>{{ '(' + position.x + ', ' + position.y +')' }}</div>
   </div>
 </template>
 
@@ -11,7 +12,10 @@ export default {
     return {
       ctx: null,
       width: 400,
-      height: 300
+      height: 300,
+      position: {x: -1, y: -1},
+      obj: {x: 200, y: 150},
+      interval: null
     }
   },
   mounted: function () {
@@ -19,7 +23,7 @@ export default {
     this.init()
   },
   updated: function () {
-    console.log('updated')
+    // console.log('updated')
     this.init()
   },
   methods: {
@@ -27,40 +31,33 @@ export default {
       let container = $('#container')
       container.width = this.width
       container.height = this.height
-      container.mousemove(this.render)
+      // container.mousemove(this.render)
       this.ctx = container[0].getContext('2d')
       this.render({offsetX: -10, offsetY: -10})
+      if (this.interval) {
+        clearInterval(this.interval)
+      }
+      var vm = this
+      this.interval = setInterval(() => {
+        vm.render()
+      }, 60 / 1000)
     },
-    render: function (event) {
+    render: function () {
       let ctx = this.ctx
       let width = this.width
       let height = this.height
       ctx.clearRect(0, 0, width, height)
-      event = event = event || window.event
-      let x = event.offsetX
-      let y = event.offsetY
+      // event = event = event || window.event
+      let x = this.position.x
+      let y = this.position.y
       ctx.beginPath()
       let geomotrys = [
-        // [
-        //   [0, 0], [0, 50], [50, 50], [50, 0], [0, 0]
-        // ],
-        // [
-        //   [100, 50], [100, 150], [150, 125], [100, 50]
-        // ],
-        // [
-        //   [80, 80], [80, 100], [200, 100], [200, 80], [80, 80]
-        // ]
         [
-          [10, 270], [350, 270]
-        ],
-        [
-          [20, 10], [20, 280]
-        ],
-        [
-          [30, 260], [50, 200], [70, 180], [90, 160], [110, 170], [130, 160], [150, 150], [170, 145], [190, 140], [210, 135], [230, 120], [250, 100], [270, 80, [290, 50], [310, 20]]
+          [10, 10], [10, 30], [15, 30], [15, 10], [10, 10],
+          [25, 10], [25, 30], [30, 30], [30, 10], [25, 10]
         ]
       ]
-      let fill = false
+      let fill = true
       let topObj = -1
       for (let i = 0, l = geomotrys.length; i < l; i++) {
         let geo = geomotrys[i]
@@ -76,6 +73,10 @@ export default {
         this.draw(points, x, y, fill, true)
       }
       topObj = -1
+      this.close2cur()
+      ctx.beginPath()
+      ctx.arc(this.obj.x, this.obj.y, 10, 0, Math.PI * 2)
+      ctx.fill()
     },
     draw: function (points, x, y, fill, top) {
       let ctx = this.ctx
@@ -86,6 +87,7 @@ export default {
         for (let i = 1, l = points.length; i < l; i++) {
           ctx.lineTo(points[i].x, points[i].y)
         }
+        ctx.closePath()
         style = top && ctx.isPointInPath(x, y) ? '#f00' : '#000'
         ctx.fillStyle = style
         ctx.fill()
@@ -95,6 +97,7 @@ export default {
           this.line(points[i], points[i - 1])
           this.point(points[i])
         }
+        ctx.closePath()
         style = top && ctx.isPointInPath(x, y) ? '#f00' : '#000'
         // ctx.strokeStyle = style
         // ctx.stroke()
@@ -119,11 +122,11 @@ export default {
       }
       let start1 = {x: start.x + r * cosa, y: start.y + r * sina * b}
       let start2 = {x: start.x - r * cosa, y: start.y - r * sina * b}
-      ctx.moveTo((start1.x), (start1.y))
-      ctx.lineTo((start2.x), (start2.y))
-      ctx.lineTo((start2.x - dx), (start2.y - dy))
-      ctx.lineTo((start1.x - dx), (start1.y - dy))
-      ctx.lineTo((start1.x), (start1.y))
+      ctx.moveTo(this.fixint(start1.x), this.fixint(start1.y))
+      ctx.lineTo(this.fixint(start2.x), this.fixint(start2.y))
+      ctx.lineTo(this.fixint(start2.x - dx), this.fixint(start2.y - dy))
+      ctx.lineTo(this.fixint(start1.x - dx), this.fixint(start1.y - dy))
+      ctx.lineTo(this.fixint(start1.x), this.fixint(start1.y))
       // ctx.fillText('(' + (start1.x) + ', ' + (start1.y) + ')', (start1.x), (start1.y))
       // ctx.fillText('(' + (start2.x) + ', ' + (start2.y) + ')', (start2.x), (start2.y))
       // ctx.fillText('(' + (start2.x - dx) + ', ' + (start2.y - dy) + ')', (start2.x - dx), (start2.y - dy))
@@ -131,7 +134,33 @@ export default {
     },
     point: function (point) {
       let ctx = this.ctx
-      ctx.arc((point.x), (point.y), 2, 0, Math.PI * 2)
+      ctx.arc(this.fixint(point.x), this.fixint(point.y), 2, 0, Math.PI * 2)
+    },
+    fixint: function (num) {
+      return (0.5 + num) | 0
+      // return ~~(0.5 + num)
+      // return (0.5 + num) << 0
+    },
+    close2cur: function () {
+      let x = this.position.x
+      let y = this.position.y
+      let speed = 0.5
+      if (x > this.obj.x) {
+        this.obj.x += speed
+      } else if (x < this.obj.x) {
+        this.obj.x -= speed
+      }
+      if (y > this.obj.y) {
+        this.obj.y += speed
+      } else if (y < this.obj.y) {
+        this.obj.y -= speed
+      }
+    },
+    showPosition: function (event) {
+      event = event || window.event
+      let x = event.offsetX
+      let y = event.offsetY
+      this.position = {x: x, y: y}
     }
   },
   beforeCreate: () => {
@@ -147,7 +176,7 @@ export default {
   //   console.log('mounted')
   // },
   beforeUpdate: () => {
-    console.log('beforeUpdate')
+    // console.log('beforeUpdate')
   },
   // updated: () => {
   //   console.log('updated')

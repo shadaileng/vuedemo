@@ -1,7 +1,10 @@
 <template>
   <div class="hello">
     <button @click="count++">{{ count }}</button>
-    <slot></slot>
+    <button @click="show = !show">show</button>
+    <transition name="fade">
+      <p v-if="show">show: ~~~~~~~~~~~~~~</p>
+    </transition>
   </div>
 </template>
 
@@ -10,7 +13,13 @@ export default {
   name: 'Hello',
   data: function () {
     return {
-      count: 0
+      count: 0,
+      show: true
+    }
+  },
+  watch: {
+    show: function () {
+      // console.log(this.show)
     }
   }
 }
@@ -18,18 +27,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.fade-enter-active {
+  animation: fade-in .5s;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.fade-leave-active {
+  animation: fade-in .5s reverse;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+@keyframes fade-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

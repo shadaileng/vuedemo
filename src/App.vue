@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <!-- <img src="./assets/logo.png"> -->
     <!-- <router-view/> -->
     <ul>
       <li @selectstart.prevent v-for='tab in tabs' :key='tab' :class='{active: tab === currentTab}' @click='currentTab = tab'>{{ tab }}</li>
@@ -10,9 +10,6 @@
         <component :is='currentComponent' :class="['tab_']" v-model='msg'><h1 v-if='currentTab == "custom"'>{{ msg }}</h1></component>
       </transition>
     </keep-alive>
-<!--     <Hello><h1>点击</h1></Hello>
-    <custom v-model="msg"></custom>
-     -->
   </div>
 </template>
 
@@ -20,14 +17,15 @@
 import Hello from './components/HelloWorld'
 import custom from './components/custom-input'
 import myCanvas from './components/my-canvas'
+import mySvg from './components/my-svg'
 export default {
   name: 'App',
-  components: {Hello, custom, myCanvas},
+  components: {Hello, custom, myCanvas, mySvg},
   data: function () {
     return {
       msg: '',
       currentTab: 'myCanvas',
-      tabs: ['Hello', 'custom', 'myCanvas']
+      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg']
     }
   },
   computed: {
@@ -66,11 +64,29 @@ ul li:hover {
 .tab_ {
   border: 1px solid #ccc;
   padding: 10px;
+  height: 400px;
+  width: auto;
+  overflow: hidden;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active{
+  transition: fade-in .5s ease;
+}
+.fade=leave-active {
+  transition: fade-in reverse .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  /*transform: translateX(10px);*/
   opacity: 0;
+}
+@keyframes fade-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
