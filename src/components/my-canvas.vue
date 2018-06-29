@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <canvas @mousemove="showPosition" id="container" :width="width" :height="height"></canvas>
+  <div @selectstart.prevent>
+    <canvas @mousedown="markposition" @mouseup="releaseposition" @mouseleave="releaseposition" @mousemove="showPosition" id="container" :width="width" :height="height"></canvas>
     <div>{{ '(' + position.x + ', ' + position.y +')' }}</div>
   </div>
 </template>
@@ -14,7 +14,8 @@ export default {
       width: 400,
       height: 300,
       position: {x: -1, y: -1},
-      obj: {x: 200, y: 150},
+      mouseMark: false,
+      obj: [{position: {x: 200, y: 150}}, {position: {x: 200, y: 150}}, {position: {x: 200, y: 150}}, {position: {x: 200, y: 150}}, {position: {x: 200, y: 150}}, {position: {x: 200, y: 150}}],
       interval: null
     }
   },
@@ -37,6 +38,7 @@ export default {
       if (this.interval) {
         clearInterval(this.interval)
       }
+      // requestAnimationFrame(this.render)
       var vm = this
       this.interval = setInterval(() => {
         vm.render()
@@ -73,10 +75,32 @@ export default {
         this.draw(points, x, y, fill, true)
       }
       topObj = -1
-      this.close2cur()
-      ctx.beginPath()
-      ctx.arc(this.obj.x, this.obj.y, 10, 0, Math.PI * 2)
-      ctx.fill()
+      for (let i = this.obj.length - 1; i >= 0; i--) {
+        let position = this.obj[i].position
+        if (i === 0) {
+          if (this.mouseMark) {
+            position = this.close2obj(position, this.position)
+          } else {
+            // let detalX = position.x + (Math.random() * 20 - 10) * 10
+            // let detalY = position.y + (Math.random() * 20 - 10) * 10
+            let detalX = 200
+            let detalY = 150
+            position = this.close2obj(position, {x: detalX, y: detalY})
+          }
+        } else {
+          position = this.close2obj(position, this.obj[i - 1].position)
+        }
+        this.obj[i].position = position
+
+        let gradient = ctx.createRadialGradient(position.x, position.y, 1, position.x, position.y, 10)
+        ctx.fillStyle = gradient
+        gradient.addColorStop(0, '#8ac')
+        gradient.addColorStop(1, '#afd')
+        // gradient.addColorStop(1, 'red')
+        ctx.beginPath()
+        ctx.arc(this.obj[i].position.x, this.obj[i].position.y, 10, 0, Math.PI * 2)
+        ctx.fill()
+      }
     },
     draw: function (points, x, y, fill, top) {
       let ctx = this.ctx
@@ -141,20 +165,29 @@ export default {
       // return ~~(0.5 + num)
       // return (0.5 + num) << 0
     },
-    close2cur: function () {
-      let x = this.position.x
-      let y = this.position.y
-      let speed = 0.5
-      if (x > this.obj.x) {
-        this.obj.x += speed
-      } else if (x < this.obj.x) {
-        this.obj.x -= speed
-      }
-      if (y > this.obj.y) {
-        this.obj.y += speed
-      } else if (y < this.obj.y) {
-        this.obj.y -= speed
-      }
+    close2obj: function (position, position_) {
+      // let speed = 0.5
+      // if (x2 > x1) {
+      //   x1 += speed
+      // } else if (x2 < x1) {
+      //   x1 -= speed
+      // }
+      // if (y2 > y1) {
+      //   y1 += speed
+      // } else if (y2 < y1) {
+      //   y1 -= speed
+      // }
+      let effect = 0.03
+
+      position.x += (position_.x - position.x) * effect
+      position.y += (position_.y - position.y) * effect
+      return position
+    },
+    markposition: function () {
+      this.mouseMark = true
+    },
+    releaseposition: function () {
+      this.mouseMark = false
     },
     showPosition: function (event) {
       event = event || window.event
