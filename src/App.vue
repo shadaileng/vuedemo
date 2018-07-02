@@ -7,7 +7,7 @@
     </ul>
     <keep-alive>
       <transition name="fade">
-        <component :is='currentComponent' :class="['tab_']" v-model='msg'><h1 v-if='currentTab == "custom"'>{{ msg }}</h1></component>
+        <component :is='currentComponent' :class="['tab_']" v-model='msg'><h1 v-if='currentTab === "custom"'>{{ msg }}</h1></component>
       </transition>
     </keep-alive>
   </div>
@@ -18,14 +18,15 @@ import Hello from './components/HelloWorld'
 import custom from './components/custom-input'
 import myCanvas from './components/my-canvas'
 import mySvg from './components/my-svg'
+import Blogs from './components/Blogs'
 export default {
   name: 'App',
-  components: {Hello, custom, myCanvas, mySvg},
+  components: {Hello, custom, myCanvas, mySvg, Blogs},
   data: function () {
     return {
       msg: '',
       currentTab: 'myCanvas',
-      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg']
+      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg', 'Blogs']
     }
   },
   computed: {
@@ -69,16 +70,23 @@ ul li:hover {
   overflow: hidden;
 }
 .fade-enter-active{
-  transition: fade-in .5s ease;
+  /*transition: fade-in .5s ease;*/
+  transition: all .5s ease;
 }
-.fade=leave-active {
-  transition: fade-in reverse .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+.fade-leave-active {
+  /*transition: fade-in reverse .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/
+  transition: all reverse .8s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   /*transform: translateX(10px);*/
   opacity: 0;
 }
-@keyframes fade-in {
+
+.fade-enter-to, .fade-leave {
+  opacity: 1.0;
+}
+
+/*@keyframes fade-in {
   0% {
     transform: scale(0);
   }
@@ -88,5 +96,5 @@ ul li:hover {
   100% {
     transform: scale(1);
   }
-}
+}*/
 </style>

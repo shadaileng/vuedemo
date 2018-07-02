@@ -2,7 +2,7 @@
   <div class="hello">
     <button @click="count++">{{ count }}</button>
     <button @click="show = !show">show</button>
-    <transition name="fade">
+    <transition name="fade_">
       <p v-if="show">show: ~~~~~~~~~~~~~~</p>
     </transition>
   </div>
@@ -27,13 +27,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.fade-enter-active {
-  animation: fade-in .5s;
+.fade_-enter-active {
+  animation: fade_-in .5s;
 }
-.fade-leave-active {
-  animation: fade-in .5s reverse;
+.fade_-leave-active {
+  animation: fade_-in .5s reverse;
 }
-@keyframes fade-in {
+@keyframes fade_-in {
   0% {
     transform: scale(0);
   }
