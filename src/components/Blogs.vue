@@ -1,6 +1,8 @@
 <template>
   <div>
-    <img class="blog_img" src="../assets/logo.png">
+    <div class="blog_img">
+      <img src="../assets/logo.png">
+    </div>
     <div class="blog_comment">
         <BlogAdd :addComment="addComment"></BlogAdd>
         <BlogItems  v-for='comment in comments' :key='comment.index' :comment='comment'></BlogItems>
@@ -16,38 +18,18 @@ export default {
   components: {BlogAdd, BlogItems},
   data: function () {
     return {
-      comments: [
-        {
-          index: 0,
-          name: 'bob',
-          content: 'test 22222222222 222222 22222222222222 222222222222222222222',
-          time: new Date().toLocaleString()
-        },
-        {
-          index: 1,
-          name: 'ace',
-          content: 'test1',
-          time: new Date().toLocaleString()
-        },
-        {
-          index: 2,
-          name: 'fiona',
-          content: 'test2',
-          time: new Date().toLocaleString()
-        },
-        {
-          index: 3,
-          name: 'emaly',
-          content: 'test1',
-          time: new Date().toLocaleString()
-        }
-      ],
+      comments: localStorage.getItem('comments') === '' ? [] : JSON.parse(localStorage.getItem('comments')),
       name: 'undefine'
     }
   },
   methods: {
     addComment: function (content) {
       this.comments.push({name: this.name, content: content, time: new Date().toLocaleString()})
+    }
+  },
+  watch: {
+    comments: function () {
+      localStorage.setItem('comments', JSON.stringify(this.comments))
     }
   },
   mounted: function () {},
@@ -61,7 +43,8 @@ export default {
   display: inline-block;
   position: relative;
   float: left;
-  width: 50%;
+  text-align: center;
+  width: 59%;
   height: 100%;
 }
 .blog_comment {

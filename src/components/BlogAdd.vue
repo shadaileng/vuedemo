@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <input @focus="isFocus = true" class="blog_comment_add" type="text" placeholder="输入评论" v-model="content">
-    <button class="blog_add_sub" v-show="isFocus" @click="addComment_">评论</button>
+  <div class="blog_comment_add">
+    <input @focus="isFocus = true" @keyup.enter="addComment_" type="text" placeholder="输入评论" v-model="content">
+    <div class="blog_add_sub" v-show="isFocus">
+      <button @click="addComment_">评论</button>
+    </div>
   </div>
 </template>
 
@@ -40,13 +42,20 @@ export default {
 <style scoped>
 .blog_comment_add {
   position: relative;
+}
+.blog_comment_add input {
+  position: relative;
   margin: 20px auto;
-  padding: 5px 10px;
   width: 80%;
-  margin: 20px auto 5px
+  margin: 20px auto 5px;
+  display: block;
 }
 .blog_add_sub {
   position: relative;
-  left: 36%;
+  text-align: right;
+}
+.blog_add_sub button {
+  position: relative;
+  right: 10%;
 }
 </style>
