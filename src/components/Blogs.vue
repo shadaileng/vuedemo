@@ -13,12 +13,13 @@
 <script>
 import BlogAdd from './BlogAdd'
 import BlogItems from './BlogItems'
+import {fname, name} from '../../static/random_name.js'
 export default {
   name: 'Blogs',
   components: {BlogAdd, BlogItems},
   data: function () {
     return {
-      comments: localStorage.getItem('comments') === '' ? [] : JSON.parse(localStorage.getItem('comments')),
+      comments: localStorage.getItem('comments') ? JSON.parse(localStorage.getItem('comments')) : [],
       name: 'undefine'
     }
   },
@@ -32,7 +33,9 @@ export default {
       localStorage.setItem('comments', JSON.stringify(this.comments))
     }
   },
-  mounted: function () {},
+  mounted: function () {
+    this.name = fname() + name()
+  },
   destroyed: function () {}
 }
 </script>

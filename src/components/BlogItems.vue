@@ -35,6 +35,9 @@ export default {
   word-wrap: break-word;
   color: #f59911e0;
 }
+.blog_comment_item_content {
+  word-wrap: break-word;
+}
 .blog_comment_item_time {
   position: relative;
   left: 0px;
