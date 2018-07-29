@@ -61,4 +61,20 @@ export default {
   overflow: auto;
   /*background-color: red;*/
 }
+
+.blog_comment::-webkit-scrollbar {
+  width: 5px;
+  height:10px;
+  background-color:#ffffff;
+}
+.blog_comment::-webkit-scrollbar-track{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #cecece;
+}
+.blog_comment::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:#b5b1b1;
+}
 </style>
