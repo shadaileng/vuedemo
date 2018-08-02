@@ -4,7 +4,7 @@
     <div class="content_frame">
       <div class="header_content_frame"></div>
       <div class="nav_content_frame"></div>
-      <div class="body_content_frame">1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br></div>
+      <div class="body_content_frame">1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br></div>
     </div>
     <div class="footer_frame"></div>
   </div>
@@ -19,9 +19,31 @@ export default {
   methods: {},
   mounted: function () {
     document.querySelector('.body_content_frame').addEventListener('scroll', (event) => {
+      let top = event.target.scrollTop
+      let height = event.target.offsetHeight
+      let scrollHeight = event.target.scrollHeight
+      if (top < 0.2 * height) {
+        document.querySelector('.content_frame').style.height = '90%'
+        document.querySelector('.header_content_frame').style.height = '5%'
+        document.querySelector('.body_content_frame').style.height = '93%'
+        document.querySelector('.nav_content_frame').style.height = '93%'
+      } else if (top > 0.2 * height && top < scrollHeight - height) {
+        document.querySelector('.header_content_frame').style.height = '0'
+        document.querySelector('.body_content_frame').style.height = '100%'
+        document.querySelector('.nav_content_frame').style.height = '100%'
+      } else {
+        console.log('bottom')
+        document.querySelector('.content_frame').style.height = '77%'
+        // document.querySelector('.header_content_frame').style.height = '5%'
+        document.querySelector('.body_content_frame').style.height = '100%'
+        document.querySelector('.nav_content_frame').style.height = '100%'
+      }
       console.log(event.target.scrollTop)
       console.log(event.target.offsetHeight)
       console.log(event.target.scrollHeight)
+    })
+    document.querySelector('.body_content_frame').addEventListener('mousemove', (event) => {
+      // console.log('(' + event.offsetX + ', ' + event.offsetY + ')')
     })
   },
   destroyed: function () {}
@@ -42,9 +64,11 @@ export default {
   /*outline: 1px solid #f4f4f4;*/
   border-radius: 5px;
   background: #fffd;
+  transition: height 1s;
 }
 .content_frame {
   background: #fffa;
+  transition: height 0.3s;
 }
 .panel_frame > * {
   margin: 0;
