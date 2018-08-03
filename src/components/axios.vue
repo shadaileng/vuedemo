@@ -53,7 +53,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .panel_axios {
   overflow-y: auto;
 }
