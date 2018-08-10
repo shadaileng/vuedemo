@@ -25,14 +25,15 @@ import mySvg from './components/my-svg'
 import Blogs from './components/Blogs'
 import Axios from './components/axios'
 import Frame from './components/frame'
+import Gallery from './components/Gallery'
 export default {
   name: 'App',
-  components: {Hello, custom, myCanvas, mySvg, Blogs, Axios, Frame},
+  components: {Hello, custom, myCanvas, mySvg, Blogs, Axios, Frame, Gallery},
   data: function () {
     return {
       msg: '',
       currentTab: 'myCanvas',
-      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg', 'Blogs', 'Axios', 'Frame']
+      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg', 'Blogs', 'Axios', 'Frame', 'Gallery']
     }
   },
   computed: {
