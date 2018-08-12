@@ -9,16 +9,25 @@
 <script>
 export default {
   name: 'Comb',
-  props: ['url'],
+  props: ['url', 'width'],
   data: function () {
     return {}
   },
-  methods: {},
+  methods: {
+    update: function () {
+      let width = this.width || 0.15
+      let paddingBottom = width * 1.15
+      this.$el.style.width = (width * 100) + '%'
+      this.$el.style.paddingBottom = (paddingBottom * 100) + '%'
+    }
+  },
   mounted: function () {
-    // console.log(this)
-    // document.querySelector('.comb').querySelectorAll('img').forEach( (el) => {
-    //   el.src = this.url;
-    // })
+    this.update()
+  },
+  watch: {
+    width: function () {
+      this.update()
+    }
   },
   destroyed: function () {}
 }
@@ -34,9 +43,9 @@ export default {
   /*width: 240px;*/
   /*height: 276px;*/
 
-  width: 15%;
+  /*width: 15%;*/
   height: 0;
-  padding-bottom: 17.25%;
+  /*padding-bottom: 17.25%;*/
 
   /*width: 120px;*/
   /*height: 138px;*/
@@ -46,7 +55,7 @@ export default {
   align-items: center;
   border-radius: 5px;
   float: left;
-  margin: 2%;
+  margin: 1px;
   /*margin: 100px 100px;*/
 }
 
