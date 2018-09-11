@@ -26,14 +26,15 @@ import Blogs from './components/Blogs'
 import Axios from './components/axios'
 import Frame from './components/frame'
 import Gallery from './components/Gallery'
+import VideoCom from './components/VideoCom'
 export default {
   name: 'App',
-  components: {Hello, custom, myCanvas, mySvg, Blogs, Axios, Frame, Gallery},
+  components: {Hello, custom, myCanvas, mySvg, Blogs, Axios, Frame, Gallery, VideoCom},
   data: function () {
     return {
       msg: '',
       currentTab: 'myCanvas',
-      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg', 'Blogs', 'Axios', 'Frame', 'Gallery']
+      tabs: ['Hello', 'custom', 'myCanvas', 'mySvg', 'Blogs', 'Axios', 'Frame', 'Gallery', 'VideoCom']
     }
   },
   computed: {
