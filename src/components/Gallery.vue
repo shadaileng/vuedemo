@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Comb v-for="(img, i) in imgs" :key='i' :url="img.src"/>
+    <Comb v-for="(img, i) in imgs" :key='i' :url="img.src" :width="0.1"/>
   </div>
 </template>
 
@@ -13,6 +13,13 @@ export default {
   data: function () {
     return {
       imgs: [
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
+        {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
         {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'},
         {src: 'https://wx1.sinaimg.cn/mw1024/62d300b5gy1ftqx7oiqgvj20qo140gxf.jpg'}
       ]

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+        <div id="app">
+            <input type="text" v-model="person.name">
+            <div>{{person.name}}, {{person.age}}</div>
+            <div>{{person.age}}</div>
+            <div>{{person.gender}}</div>
+            <div>{{getNewName}}</div>
+            <div v-html="message"></div>
+            <button v-on:click="inc">Increase</button>
+        </div>
+	</body>
+    <script src="mvvm.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                person: {
+                    name: 'sdl',
+                    age: 23
+                },
+                message: '<h1>Welcome</h1>'
+            },
+            computed: {
+                getNewName() {
+                    return this.person.name + ' | tmp'
+                }
+            },
+            methods: {
+                inc() {
+                    let age = this.person.age++
+                    return age
+                }
+            }
+        })
+    </script>
+</html>
